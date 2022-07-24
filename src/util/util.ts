@@ -1,5 +1,6 @@
 import fs from "fs";
 import Jimp = require("jimp");
+//import fetch from "node-fetch";
 
 // filterImageFromURL
 // helper function to download, filter, and save the filtered image locally
@@ -36,4 +37,14 @@ export async function deleteLocalFiles(files: Array<string>) {
   for (let file of files) {
     fs.unlinkSync(file);
   }
+}
+
+export async function imageExists(image_url: string):Promise<boolean> {
+// check if a url contains a valid image
+  try {
+    await Jimp.read(image_url);
+    return true
+  }
+  catch(err) { return false; }
+  
 }
