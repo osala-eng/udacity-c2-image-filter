@@ -11,8 +11,6 @@ import { BadRequest, main, NotFound } from './errors/errors';
 
   // Set the network port
   const port = process.env.PORT || 8082;
-
-  let __destination: string;
   
   // Use the body parser middleware for post requests
   app.use(bodyParser.json());
@@ -35,29 +33,25 @@ import { BadRequest, main, NotFound } from './errors/errors';
   app.get("/filteredimage/", async (req: Request, res: Response) => {
     let { image_url } = req.query;
 
-    /* Validate the image url query */
+    /* 1. Validate the image url query */
     if (!image_url) return res.status(400).send(BadRequest);
 
-    __destination = image_url;
     /* Check if the url is a valid image */
     const image = await imageExists(image_url);
 
+    /* Check if image url is of publicly available image */
     if (!image) return res.status(400).send(BadRequest)
 
-    /* Call filterImageFromURL(image_url) */
-    console.log(image)
-
+    /* 2. Call filterImageFromURL(image_url) */
     const filteredImage = await filterImageFromURL(image_url);
 
+    /* 3. Send the resulting file in the response */
     return res.status(200).sendFile(filteredImage, ()=>{
       const localfile: Array<string> = [filteredImage];
+
+      /* Delete local files on the server on finish */
       deleteLocalFiles(localfile);
     })
-  });
-
-
-  app.get("proxyservice/" (res: Response, req: Request) =>{
-	res.status(200).redirect((
   });
 
   //! END @TODO1
@@ -68,7 +62,7 @@ import { BadRequest, main, NotFound } from './errors/errors';
     res.send(main("try GET /filteredimage?image_url={{}}"))
   } );
   
-  // Catch all requests to the server
+  /* Catch all requests to the server */
 
   app.all("*", (req: Request, res: Response) =>{
     res.status(404).send(NotFound);
