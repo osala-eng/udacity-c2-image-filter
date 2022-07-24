@@ -1,5 +1,7 @@
 import fs from "fs";
 import Jimp = require("jimp");
+import axios from 'axios'
+
 //import fetch from "node-fetch";
 
 // filterImageFromURL
@@ -12,18 +14,33 @@ import Jimp = require("jimp");
 export async function filterImageFromURL(inputURL: string): Promise<string> {
   return new Promise(async (resolve, reject) => {
     try {
-      const photo = await Jimp.read(inputURL);
-      const outpath =
+      // const photo = await Jimp.read(inputURL);
+
+      /**
+       * Added axios to create image buffer then pass to jimp
+       */
+      axios({
+        method: 'get',
+        url: inputURL,
+        responseType: 'arraybuffer'
+      })
+      .then( async function ({data: imageBuffer}) {
+        const photo = await Jimp.read(imageBuffer);
+
+        const outpath =
         "/tmp/filtered." + Math.floor(Math.random() * 2000) + ".jpg";
-      await photo
+      photo
         .resize(256, 256) // resize
         .quality(60) // set JPEG quality
         .greyscale() // set greyscale
         .write(__dirname + outpath, (img) => {
           resolve(__dirname + outpath);
         });
+      })
+     
     } catch (error) {
-      reject(error);
+      //reject(error);
+      console.log(error)
     }
   });
 }
@@ -42,9 +59,19 @@ export async function deleteLocalFiles(files: Array<string>) {
 export async function imageExists(image_url: string):Promise<boolean> {
 // check if a url contains a valid image
   try {
-    await Jimp.read(image_url);
+    // await Jimp.read(image_url);
+    axios({
+      method: 'get',
+      url: image_url,
+      responseType: 'arraybuffer'
+    })
+    .then( async function ({data: imageBuffer}) {
+      await Jimp.read(imageBuffer);
+    });
     return true
   }
   catch(err) { return false; }
   
 }
+
+
