@@ -11,6 +11,8 @@ import { BadRequest, main, NotFound } from './errors/errors';
 
   // Set the network port
   const port = process.env.PORT || 8082;
+
+  let __destination: string;
   
   // Use the body parser middleware for post requests
   app.use(bodyParser.json());
@@ -36,6 +38,7 @@ import { BadRequest, main, NotFound } from './errors/errors';
     /* Validate the image url query */
     if (!image_url) return res.status(400).send(BadRequest);
 
+    __destination = image_url;
     /* Check if the url is a valid image */
     const image = await imageExists(image_url);
 
@@ -50,6 +53,11 @@ import { BadRequest, main, NotFound } from './errors/errors';
       const localfile: Array<string> = [filteredImage];
       deleteLocalFiles(localfile);
     })
+  });
+
+
+  app.get("proxyservice/" (res: Response, req: Request) =>{
+	res.status(200).redirect((
   });
 
   //! END @TODO1
