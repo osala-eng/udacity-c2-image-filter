@@ -21,4 +21,4 @@ Then sends the new image back to the user and cleans the server
 
 ## Elastic beanstalk deployment
 
-![EbDeplyment](./deployment_screenshots/eb-deploy.png)
+![EbDeplyment](./deployment_screenshots/eb-deploy-n.png)
