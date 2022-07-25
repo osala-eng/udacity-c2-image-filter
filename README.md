@@ -7,6 +7,14 @@
 
 Then sends the new image back to the user and cleans the server
 
+### Deployment endpoint
+
+[http://udagram-image-filter-dev22.us-east-1.elasticbeanstalk.com](http://udagram-image-filter-dev22.us-east-1.elasticbeanstalk.com)
+
 ## Sample result
 
 ![SampleResult](./deployment_screenshots/sample.png)
+
+## Elastic beanstalk deployment
+
+![EbDeplyment](./deployment_screenshots/eb-deploy.png)
