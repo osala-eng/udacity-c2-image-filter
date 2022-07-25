@@ -1,8 +1,7 @@
 import fs from "fs";
 import Jimp = require("jimp");
 import axios from 'axios'
-
-//import fetch from "node-fetch";
+import { IMAGE_TYPES } from "./image.header";
 
 // filterImageFromURL
 // helper function to download, filter, and save the filtered image locally
@@ -56,22 +55,40 @@ export async function deleteLocalFiles(files: Array<string>) {
   }
 }
 
+/**
+ * @param image_url - url of publicly available image
+ * 
+ * @returns promise image exists in url ? true : false
+ */
+
 export async function imageExists(image_url: string):Promise<boolean> {
 // check if a url contains a valid image
-  try {
-    // await Jimp.read(image_url);
-    axios({
+return new Promise (async (resolve, reject)=>{
+  try{  
+  axios({
       method: 'get',
       url: image_url,
-      responseType: 'arraybuffer'
+      responseType: 'stream'
     })
-    .then( async function ({data: imageBuffer}) {
-      await Jimp.read(imageBuffer);
-    });
-    return true
+    .then((res) => {
+      const str: string = JSON.stringify( res.headers);
+      IMAGE_TYPES.forEach(async (header)=>{
+        if (str.match(header))
+        {
+          resolve(true);
+        }
+      });
+      resolve(false);
+    })
+    .catch((err)=>{
+      resolve(false)
+    })
   }
-  catch(err) { return false; }
-  
+  catch{
+    reject(false)
+  }
+});
 }
+
 
 
