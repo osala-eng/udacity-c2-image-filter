@@ -38,7 +38,7 @@ import { BadRequest, main, NotFound } from './errors/errors';
     if (!image_url) return res.status(400).send(BadRequest);
 
     /* Check if the url is a valid image */
-    const image = await imageExists(image_url);
+    const image: boolean = await imageExists(image_url);
 
     /* Check if image url is of publicly available image */
     if (!image) return res.status(400).send(BadRequest)
