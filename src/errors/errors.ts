@@ -80,7 +80,7 @@ export const main = (message: string): string => {
 }
 
 // 400
-export const BadRequest = errortemplate(400, "Bad Request invalid image url");
+export const BadRequest: string = errortemplate(400, "Bad Request invalid image url");
 // 404
-export const NotFound = errortemplate(404, "Page not Found")
+export const NotFound: string = errortemplate(404, "Page not Found")
 

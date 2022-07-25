@@ -44,7 +44,7 @@ import { BadRequest, main, NotFound } from './errors/errors';
     if (!image) return res.status(400).send(BadRequest)
 
     /* 2. Call filterImageFromURL(image_url) */
-    const filteredImage = await filterImageFromURL(image_url);
+    const filteredImage: string = await filterImageFromURL(image_url);
 
     /* 3. Send the resulting file in the response */
     return res.status(200).sendFile(filteredImage, ()=>{
