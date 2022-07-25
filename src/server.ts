@@ -32,19 +32,19 @@ import { BadRequest, main, NotFound } from './errors/errors';
   /**************************************************************************** */
 
   app.get("/filteredimage/", async (req: Request, res: Response) => {
-    let { image_url } = req.query;
+    let { image_url }: {image_url: string} = req.query;
 
     /* 1. Validate the image url query */
     if (!image_url) return res.status(400).send(BadRequest);
 
     /* Check if the url is a valid image */
-    const image = await imageExists(image_url);
+    const image: boolean = await imageExists(image_url);
 
     /* Check if image url is of publicly available image */
     if (!image) return res.status(400).send(BadRequest)
 
     /* 2. Call filterImageFromURL(image_url) */
-    const filteredImage = await filterImageFromURL(image_url);
+    const filteredImage: string = await filterImageFromURL(image_url);
 
     /* 3. Send the resulting file in the response */
     return res.status(200).sendFile(filteredImage, ()=>{
