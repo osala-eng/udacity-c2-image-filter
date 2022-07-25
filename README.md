@@ -9,7 +9,7 @@ Then sends the new image back to the user and cleans the server
 
 ### Deployment endpoint
 
-[http://udagram-image-filter-dev22.us-east-1.elasticbeanstalk.com](http://udagram-image-filter-dev22.us-east-1.elasticbeanstalk.com)
+[http://i-gram.jsoan.com](http://i-gram.jsoan.com)
 
 ## Sample result
 
